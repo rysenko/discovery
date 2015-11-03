@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-docker-machine create -d virtualbox --swarm --swarm-master --swarm-discovery token://f6e5bee0b7c9752ea484a057e55e517a host-1
-docker-machine create -d virtualbox --swarm --swarm-discovery token://f6e5bee0b7c9752ea484a057e55e517a host-2
-#eval "$(docker-machine env --swarm host-1)"
+SWARM_TOKEN=`docker run swarm create`
+docker-machine create -d digitalocean --digitalocean-access-token=$DIGITALOCEAN_ACCESS_TOKEN --swarm --swarm-master --swarm-discovery token://$SWARM_TOKEN host-1
+docker-machine create -d digitalocean --digitalocean-access-token=$DIGITALOCEAN_ACCESS_TOKEN --swarm --swarm-discovery token://$SWARM_TOKEN host-2

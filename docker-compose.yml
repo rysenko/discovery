@@ -13,7 +13,8 @@ registrator:
   image: gliderlabs/registrator
   volumes:
     - /var/run/docker.sock:/tmp/docker.sock
-  entrypoint: ["/bin/sh", "-c", "/bin/registrator -ip `wget http://ipinfo.io/ip -qO -` etcd://rysenko.com:4001/registry"]
+  entrypoint: ["/bin/sh", "-c",
+      "/bin/registrator -resync=60 -ttl=120 -ttl-refresh=60 -ip `wget http://ipinfo.io/ip -qO -` etcd://rysenko.com:4001/registry"]
   net: host
   environment:
     - affinity:container!=discovery_registrator*
