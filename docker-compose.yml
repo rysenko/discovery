@@ -1,28 +1,20 @@
 api:
   build: ./api
   ports:
-    - 80:8080
+    - 8080
   environment:
-    - constraint:node==host-1
+    - affinity:container!=discovery_api*
 users:
   build: ./users
   ports:
     - 8080
   environment:
     - affinity:container!=discovery_users*
-registrator-host-1:
+registrator:
   image: gliderlabs/registrator
   volumes:
     - /var/run/docker.sock:/tmp/docker.sock
-  command: -ip 159.203.140.235 etcd://rysenko.com:4001/registry
+  entrypoint: ["/bin/sh", "-c", "/bin/registrator -ip `wget http://ipinfo.io/ip -qO -` etcd://rysenko.com:4001/registry"]
   net: host
   environment:
-    - constraint:node==host-1
-registrator-host-2:
-  image: gliderlabs/registrator
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock
-  command: -ip 45.55.222.249 etcd://rysenko.com:4001/registry
-  net: host
-  environment:
-    - constraint:node==host-2
+    - affinity:container!=discovery_registrator*
