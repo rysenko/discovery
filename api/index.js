@@ -11,7 +11,7 @@ registry.load({host: 'rysenko.com', path: '/registry'}, function(err, registry) 
                 str += chunk;
             });
             clientRes.on('end', function () {
-                serverRes.end('Users is at: ' + usersEndpoint + '\nGot response from it: ' + str);
+                serverRes.end('Users service is at: ' + usersEndpoint + '\nGot response from it: ' + str);
             });
         }).end();
     });

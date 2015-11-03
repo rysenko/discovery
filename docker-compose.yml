@@ -1,15 +1,14 @@
 api:
   build: ./api
   ports:
-    - 8080
-  environment:
-    - affinity:container!=discovery_api*
+    - 80:8080
 users:
-  build: ./users
+  image: cretzel/docker-simple-http-server
   ports:
     - 8080
   environment:
     - affinity:container!=discovery_users*
+    - SERVICE_NAME=users
 registrator:
   image: gliderlabs/registrator
   volumes:
