@@ -7,7 +7,7 @@ registry.load({host: 'rysenko.com', path: '/registry'}, function() {
         console.log('Incoming request with headers: ' + JSON.stringify(serverReq.headers));
         var usersEndpoint = String(registry['users:8080']);
         if (!usersEndpoint) {
-            return serverRes.end('Users service not found');
+            return serverRes.end('Users service not found\n');
         }
         var usersEndpointParts = usersEndpoint.split(':');
         var clientReq = http.request({host: usersEndpointParts[0], port: usersEndpointParts[1], path: '/'}, function(clientRes) {
@@ -16,12 +16,12 @@ registry.load({host: 'rysenko.com', path: '/registry'}, function() {
                 str += chunk;
             });
             clientRes.on('end', function() {
-                serverRes.end('Users service is at: ' + usersEndpoint + '\nGot response from it: ' + str);
+                serverRes.end('Users service is at: ' + usersEndpoint + '\nGot response from it: ' + str + '\n');
             });
         });
         clientReq.on('error', function(err) {
             console.log('Problem with request: ' + err.message);
-            serverRes.end('Problem with users service availability');
+            serverRes.end('Problem with users service availability\n');
         });
         clientReq.end();
     });
